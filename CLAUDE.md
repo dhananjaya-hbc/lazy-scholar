@@ -66,7 +66,8 @@ with prizes, and posts a short morning digest.
 - [x] Project folder created with `.gitignore` and `.env` (placeholder keys)
 - [ ] User: DEV account + Hacktoberfest registration
 - [ ] User: Google AI Studio API key → `.env` as `GEMINI_API_KEY`; report which Gemma models are listed
-- [ ] User: SerpApi free account → `.env` as `SERPAPI_API_KEY`; report the monthly search limit
+- [x] User: SerpApi free account → `.env` as `SERPAPI_API_KEY`. Limit: **250 searches/month**,
+      so the nightly run uses at most 6 queries (~186/month) and stops when fewer than 10 are left
 - [x] User: claimed `.tech` domain: **lazyscholar.tech** (check auto-renew is off)
 - [ ] User: optional DevRelay setup to save agent sessions
 - [ ] User: share profile (degree, university, year, interests, what they want: scholarships /
