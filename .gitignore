@@ -4,3 +4,4 @@ __pycache__/
 *.db
 .DS_Store
 profile.toml
+site/
