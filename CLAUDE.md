@@ -83,7 +83,13 @@ with prizes, and posts a short morning digest.
       4 open AI hackathons and rejected list pages, expired deadlines and in-person events
 - [x] Public GitHub repo: https://github.com/dhananjaya-hbc/lazy-scholar (pushed Oct 21)
 - [x] Claude: scaffold the project (uv, Python 3.12, `src/lazy_scholar/`, `config.py` with `MODEL_PROVIDER`)
-- [ ] Claude: search module
+- [x] Claude: search module, SQLite memory (`db.py`), digest page (`digest.py`), `--no-search` rebuild
+- [x] Nightly GitHub Actions (`.github/workflows/nightly.yml`, 02:00 Sri Lanka time): secrets set,
+      memory on the `data` branch, Pages live at https://dhananjaya-hbc.github.io/lazy-scholar/.
+      First CI run passed Oct 21 (5 open matches)
+- [ ] lazyscholar.tech DNS + Pages custom domain
+- [ ] README with credits and AI-assistance note; bump actions off Node 20
+- [ ] User: 2-minute demo video; DEV post
 - Note: the project has its own git repo. `/Users/dhananjaya` also has a stray `.git`, so always run git from inside the project.
 
 ## Day plan
