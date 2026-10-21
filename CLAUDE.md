@@ -77,7 +77,7 @@ with prizes, and posts a short morning digest.
       Sri Lanka or remote only. 3rd year.
 - [x] Claude: Gemma judging (`judge.py`, `llm.py` with google/openrouter/ollama). Tested: found
       4 open AI hackathons and rejected list pages, expired deadlines and in-person events
-- [ ] User: confirm creating the public GitHub repo
+- [x] Public GitHub repo: https://github.com/dhananjaya-hbc/lazy-scholar (pushed Oct 21)
 - [x] Claude: scaffold the project (uv, Python 3.12, `src/lazy_scholar/`, `config.py` with `MODEL_PROVIDER`)
 - [ ] Claude: search module
 - Note: the project has its own git repo. `/Users/dhananjaya` also has a stray `.git`, so always run git from inside the project.
