@@ -1,0 +1,67 @@
+# Every night: search, judge with Gemma, save memory to the `data` branch,
+# publish the digest to GitHub Pages.
+name: Nightly hunt
+
+on:
+  schedule:
+    - cron: "30 20 * * *" # 20:30 UTC = 02:00 Sri Lanka time
+  workflow_dispatch: # "Run workflow" button for manual runs
+
+permissions:
+  contents: write # push the database to the data branch
+  pages: write
+  id-token: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  hunt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+
+      - name: Install Python 3.12 and dependencies
+        run: uv sync --python 3.12
+
+      - name: Restore memory from the data branch
+        run: |
+          if git fetch --depth 1 origin data; then
+            git show FETCH_HEAD:lazy_scholar.db > lazy_scholar.db
+            echo "Restored lazy_scholar.db"
+          else
+            echo "No data branch yet: starting with an empty memory"
+          fi
+
+      - name: Search, judge and build the digest
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
+          PROFILE: ${{ secrets.PROFILE }}
+        run: uv run lazy-scholar
+
+      - name: Save memory to the data branch
+        # A single fresh commit each night, so the branch never grows.
+        run: |
+          mkdir "$RUNNER_TEMP/data" && cp lazy_scholar.db "$RUNNER_TEMP/data/"
+          cd "$RUNNER_TEMP/data"
+          git init -q -b data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lazy_scholar.db
+          git commit -q -m "data: nightly run $(date -u +%F)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" data
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
