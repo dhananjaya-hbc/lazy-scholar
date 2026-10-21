@@ -72,8 +72,11 @@ with prizes, and posts a short morning digest.
       so the nightly run uses at most 6 queries (~186/month) and stops when fewer than 10 are left
 - [x] User: claimed `.tech` domain: **lazyscholar.tech** (check auto-renew is off)
 - [ ] User: optional DevRelay setup to save agent sessions
-- [ ] User: share profile (degree, university, year, interests, what they want: scholarships /
-      internships / hackathons, local or international)
+- [x] User: shared profile → private `profile.toml` (gitignored; CI reads the `PROFILE` secret).
+      IT undergrad at UoM, AI/web/data/LLM/blockchain/SE/DevOps, wants all three kinds,
+      Sri Lanka or remote only. **Year of study still missing.**
+- [x] Claude: Gemma judging (`judge.py`, `llm.py` with google/openrouter/ollama). Tested: found
+      4 open AI hackathons and rejected list pages, expired deadlines and in-person events
 - [ ] User: confirm creating the public GitHub repo
 - [x] Claude: scaffold the project (uv, Python 3.12, `src/lazy_scholar/`, `config.py` with `MODEL_PROVIDER`)
 - [ ] Claude: search module
