@@ -65,7 +65,9 @@ with prizes, and posts a short morning digest.
 ## Status (Oct 21, 2026)
 - [x] Project folder created with `.gitignore` and `.env` (placeholder keys)
 - [ ] User: DEV account + Hacktoberfest registration
-- [ ] User: Google AI Studio API key → `.env` as `GEMINI_API_KEY`; report which Gemma models are listed
+- [x] User: Google AI Studio API key → `.env` as `GEMINI_API_KEY` (verified: Gemma 4 answers)
+- [x] Gemma models in AI Studio: `gemma-4-26b-a4b-it` (MoE, 4B active, **default**) and
+      `gemma-4-31b-it` (dense flagship, 256K context, fallback for better judging)
 - [x] User: SerpApi free account → `.env` as `SERPAPI_API_KEY`. Limit: **250 searches/month**,
       so the nightly run uses at most 6 queries (~186/month) and stops when fewer than 10 are left
 - [x] User: claimed `.tech` domain: **lazyscholar.tech** (check auto-renew is off)
