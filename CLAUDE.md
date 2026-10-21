@@ -36,6 +36,10 @@ with prizes, and posts a short morning digest.
 - The public page must **not** show personal details (GPA etc.), only the matches.
 - Keys live only in `.env` (gitignored) locally and in GitHub Secrets in CI. Never commit them
   or paste them in chat.
+- In CI the SQLite file is kept on a separate `data` branch, committed by the Actions bot
+  (not the user's account; it never touches `main`).
+- The email draft uses placeholders like `[your CGPA]`, so it is safe on the public page.
+  The repo, Actions logs and site are all public.
 
 ## Prize categories to enter (a project can win only once per challenge)
 - Gemma ($200, featured)
