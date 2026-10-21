@@ -57,7 +57,7 @@ with prizes, and posts a short morning digest.
   active GitHub contribution graph).
 - Use conventional commit messages (`feat:`, `fix:`, `chore:`, `docs:`).
 - **Ask the user before every commit.**
-- Commit as the user only (`Dhananjaya Chamod <dhananjayachamod0754@gmail.com>`): no
+- Commit as the user only (`Chamod Dhananjaya <dhananjayachamod0754@gmail.com>`): no
   `Co-Authored-By: Claude` line or other Claude attribution.
 - GitHub account: `dhananjaya-hbc`. Planned public repo: `lazy-scholar` (site: lazyscholar.tech)
   (ask the user to confirm before creating it).
@@ -74,7 +74,7 @@ with prizes, and posts a short morning digest.
 - [ ] User: optional DevRelay setup to save agent sessions
 - [x] User: shared profile → private `profile.toml` (gitignored; CI reads the `PROFILE` secret).
       IT undergrad at UoM, AI/web/data/LLM/blockchain/SE/DevOps, wants all three kinds,
-      Sri Lanka or remote only. **Year of study still missing.**
+      Sri Lanka or remote only. 3rd year.
 - [x] Claude: Gemma judging (`judge.py`, `llm.py` with google/openrouter/ollama). Tested: found
       4 open AI hackathons and rejected list pages, expired deadlines and in-person events
 - [ ] User: confirm creating the public GitHub repo
