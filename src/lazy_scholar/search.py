@@ -14,13 +14,20 @@ MAX_QUERIES_PER_RUN = 6
 # Stop early if the account is nearly out, so test runs never burn the last searches.
 MIN_SEARCHES_LEFT = 10
 
+# Job boards return lists of many jobs, which Gemma cannot judge one by one.
+NO_JOB_BOARDS = (
+    "-site:indeed.com -site:glassdoor.com -site:ziprecruiter.com"
+    " -site:linkedin.com -site:simplyhired.com"
+)
+
+# Tuned to the profile: IT undergraduate in Sri Lanka, local or remote only.
 QUERIES = [
-    "undergraduate scholarship 2027 open to Sri Lankan students",
-    "fully funded international scholarship undergraduate application open",
-    "student research grant undergraduate apply now",
-    "paid software engineering internship students remote apply",
-    "hackathon cash prize students online deadline",
-    "university students competition prize money apply",
+    "scholarship for Sri Lankan undergraduate IT students apply 2026",
+    f"remote paid internship software engineering students worldwide apply {NO_JOB_BOARDS}",
+    f"remote AI LLM internship paid undergraduate apply {NO_JOB_BOARDS}",
+    "online hackathon cash prize AI generative AI students 2026",
+    "online blockchain hackathon prize students apply",
+    "grant for undergraduate students Sri Lanka technology research",
 ]
 
 
