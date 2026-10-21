@@ -1,0 +1,12 @@
+# Copy to profile.toml (gitignored) and fill in. In CI, store the whole file
+# as the PROFILE GitHub Secret. Nothing here is shown on the public page.
+name = "Your Name"
+degree = "BSc (Hons) in Computer Science"
+university = "Your University"
+level = "undergraduate"
+year = "2nd year"
+cgpa = "3.5 / 4.0"
+interests = ["AI", "web", "data"]
+wants = ["scholarships", "internships", "hackathons"]
+based_in = "Sri Lanka"
+location_rule = "Opportunities in Sri Lanka, or fully remote ones open to Sri Lankan residents. No relocation."
