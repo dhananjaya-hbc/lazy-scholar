@@ -3,6 +3,8 @@
 import json
 import re
 import time
+from collections.abc import Callable
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import date
 
@@ -11,8 +13,9 @@ from lazy_scholar.llm import generate
 from lazy_scholar.profile import profile_text
 from lazy_scholar.search import SearchResult
 
-# Stay well under the free-tier requests-per-minute limit.
-SECONDS_BETWEEN_CALLS = 2
+# Gemma takes ~17 s per call, so 3 at a time is ~10 requests/minute:
+# about 3x faster, and should stay well under the free-tier per-minute limit.
+WORKERS = 3
 
 PROMPT = """You screen opportunities for a student. Today is {today}.
 
@@ -29,6 +32,12 @@ hackathon/competition with a prize that this student can apply to. Follow the
 profile's location rule strictly. If the deadline has passed, it is not eligible.
 If the page is a list of many opportunities, a news article, or unclear, it is
 not eligible.
+
+Use the whole score range so matches can be ranked:
+- 90-100: fits the profile's interests exactly, clear prize/pay, clear open deadline
+- 70-89: good fit, but one of interest, prize/pay or deadline is vague
+- 40-69: eligible but only loosely related to the profile's interests
+- 0-39: not eligible or a poor fit
 
 Answer with only a JSON object, no other text:
 {{"eligible": true or false,
@@ -95,13 +104,23 @@ def judge(config: Config, profile: dict, result: SearchResult) -> Verdict:
     )
 
 
-def judge_all(config: Config, profile: dict, results: list[SearchResult]) -> list[Verdict]:
+def judge_all(
+    config: Config,
+    profile: dict,
+    results: list[SearchResult],
+    on_verdict: Callable[[Verdict], None] | None = None,
+) -> list[Verdict]:
+    """Judge results a few at a time; on_verdict runs as each one finishes, so a crash loses nothing."""
     verdicts = []
-    for i, result in enumerate(results):
-        if i:
-            time.sleep(SECONDS_BETWEEN_CALLS)
-        try:
-            verdicts.append(judge(config, profile, result))
-        except Exception as e:  # one bad reply should not sink the whole night
-            print(f"Could not judge {result.url}: {e}")
+    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+        futures = {pool.submit(judge, config, profile, r): r for r in results}
+        for future in as_completed(futures):
+            try:
+                verdict = future.result()
+            except Exception as e:  # one bad reply should not sink the whole night
+                print(f"Could not judge {futures[future].url}: {e}")
+                continue
+            verdicts.append(verdict)
+            if on_verdict:  # called on this thread, so the SQLite connection stays single-threaded
+                on_verdict(verdict)
     return verdicts
