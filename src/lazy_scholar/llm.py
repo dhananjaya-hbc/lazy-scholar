@@ -12,8 +12,12 @@ from lazy_scholar.config import Config
 def generate(config: Config, prompt: str) -> str:
     if config.model_provider == "google":
         from google import genai
+        from google.genai import types
 
-        client = genai.Client(api_key=config.gemini_api_key)
+        # Without a timeout a stuck request would hang the whole night; judge.py retries it.
+        client = genai.Client(
+            api_key=config.gemini_api_key, http_options=types.HttpOptions(timeout=120_000)
+        )
         response = client.models.generate_content(model=config.model_name, contents=prompt)
         return response.text or ""
 
