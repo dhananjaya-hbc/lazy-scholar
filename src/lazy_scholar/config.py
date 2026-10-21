@@ -28,7 +28,7 @@ def load_config() -> Config:
         raise ValueError(f"MODEL_PROVIDER must be one of {PROVIDERS}, got {provider!r}")
     return Config(
         model_provider=provider,
-        model_name=os.getenv("MODEL_NAME", "gemma-3-27b-it"),
+        model_name=os.getenv("MODEL_NAME", "gemma-4-26b-a4b-it"),
         gemini_api_key=os.getenv("GEMINI_API_KEY"),
         openrouter_api_key=os.getenv("OPENROUTER_API_KEY"),
         ollama_host=os.getenv("OLLAMA_HOST", "http://localhost:11434"),
