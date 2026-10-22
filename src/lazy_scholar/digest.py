@@ -36,11 +36,17 @@ def days_left(deadline: str | None) -> int | None:
         return None
 
 
-def headline(new: list[sqlite3.Row], closing: list[sqlite3.Row]) -> str:
+def headline(new: list[sqlite3.Row], closing: list[sqlite3.Row], matches: list[sqlite3.Row]) -> str:
     parts = [f"{len(new)} new match{'es' if len(new) != 1 else ''}"]
     for m in closing[:2]:
         when = datetime.fromisoformat(m["deadline"]).strftime("%A")
         parts.append(f"1 closes {when}")
+    if not closing:
+        # Nothing this week: still point at the next deadline so the page is useful.
+        upcoming = [m for m in matches if days_left(m["deadline"]) is not None]
+        if upcoming:
+            nxt = datetime.fromisoformat(upcoming[0]["deadline"]).strftime("%a %d %b")
+            parts.append(f"next deadline {nxt}")
     return ", ".join(parts)
 
 
@@ -84,7 +90,7 @@ def build(config: Config, matches: list[sqlite3.Row], new_urls: set[str]) -> Pat
     )
     page = TEMPLATE.format(
         today=date.today().strftime("%A, %d %B %Y"),
-        headline=html.escape(headline(new, closing)),
+        headline=html.escape(headline(new, closing, matches)),
         count=len(matches),
         cards=cards,
         draft=draft_html,
