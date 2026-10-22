@@ -16,6 +16,9 @@ concurrency:
   group: nightly
   cancel-in-progress: false
 
+env:
+  TZ: Asia/Colombo # "today", "new" and deadlines follow Sri Lanka time, not UTC
+
 jobs:
   hunt:
     runs-on: ubuntu-latest
